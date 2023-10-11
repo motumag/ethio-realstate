@@ -13,11 +13,19 @@ mongoose
     console.log(error.message);
   });
 const app = exppress();
-//Its possible also by importing body parser and use if like app.use(bodyParser.json())
 app.use(exppress.json());
-
 app.listen(3000, () => {
   console.log("The server is runnig at 3000 port");
 });
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+//Global error handler middleware
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal server error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode: statusCode,
+    message,
+  });
+});
