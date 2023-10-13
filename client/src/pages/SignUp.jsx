@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Oath from "../components/Oath";
 export default function SignUp() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
@@ -71,6 +72,7 @@ export default function SignUp() {
         >
           {loading ? "Loading...." : "Sign up"}
         </button>
+        <Oath />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>
