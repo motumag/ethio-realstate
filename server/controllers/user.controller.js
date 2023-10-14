@@ -1,6 +1,30 @@
-const test = (req, res) => {
-  return res.json({
-    message: "test api is called from controller",
-  });
+import User from "../models/user.model.js";
+import { errorHandler } from "../utils/error.js";
+import bcryptjs from "bcryptjs";
+//update user profile
+export const updateUserInfo = async (req, res, next) => {
+  if (req.user.id !== req.params.id)
+    return next(errorHandler(401, "You can only update your profile"));
+  try {
+    if (req.body.password) {
+      req.body.password = bcryptjs.hashSync(req.body.password, 10);
+    }
+    const updateUserProfile = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          username: req.body.username,
+          email: req.body.email,
+          password: req.body.password,
+          avator: req.body.avator,
+        },
+      },
+      // To get the updated data. Unless you will get the old data still
+      { new: true }
+    );
+    const { password, ...rest } = updateUserProfile._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
 };
-export default test;
