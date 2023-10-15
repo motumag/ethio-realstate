@@ -7,7 +7,6 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
-import { data } from "autoprefixer";
 export default function SignUp() {
   const [formData, setFormData] = useState({});
   // const [error, setError] = useState(null);
@@ -50,7 +49,7 @@ export default function SignUp() {
     } catch (error) {
       // setLoading(false);
       // setError(error.message);
-      dispatch(signInFailure(data.message));
+      dispatch(signInFailure(error.message));
     }
   };
   return (

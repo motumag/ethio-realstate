@@ -35,7 +35,7 @@ export default function Header() {
           <Link to="/profile">
             {currentUser ? (
               <img
-                src={currentUser.rest.avator}
+                src={currentUser.avator}
                 alt="profile"
                 className="rounded-full h-7 w-7 object-cover"
               />
