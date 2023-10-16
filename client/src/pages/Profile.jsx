@@ -14,14 +14,13 @@ import {
 import { app } from "../firebase";
 export default function Profile() {
   const userFromRedux = useSelector((state) => state.user);
-  const { currentUser } = userFromRedux.user;
-  // const { loading, error } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = userFromRedux.user;
   const fileRef = useRef(null);
   const [imageFile, setImageFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setUploadFileError] = useState(false);
   const [formData, setFormData] = useState({});
-  // const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (imageFile) {
@@ -64,7 +63,7 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(profileUpdateStart());
-      const res = await fetch(`/api/user/update/${currentUser.rest._id}`, {
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,6 +76,7 @@ export default function Profile() {
         return;
       }
       dispatch(profileUpdateSuccess(data));
+      setUpdateSuccess(true);
     } catch (error) {
       dispatch(profileUpdateFailure(error.message));
     }
@@ -133,14 +133,21 @@ export default function Profile() {
           className="rounded-lg p-3 "
           id="password"
         />
-        <button className="bg-brightRedLight text-white p-3 uppercase rounded-lg hover:opacity-95 disabled:opacity-80">
-          Update
+        <button
+          disabled={loading}
+          className="bg-brightRedLight text-white p-3 uppercase rounded-lg hover:opacity-95 disabled:opacity-80"
+        >
+          {loading ? "Loading..." : "Update"}
         </button>
       </form>
       <div className="flex justify-between mt-5">
         <span className="text-red-700 cursor-pointer">Delete account</span>
         <span className="text-red-700 cursor-pointer">Sign out</span>
       </div>
+      <p className="text-red-700 mt-5">{error ? error : ""}</p>
+      <p className="text-green-700 mt-5">
+        {updateSuccess ? "User is updated successfully!" : ""}
+      </p>
     </div>
   );
 }
