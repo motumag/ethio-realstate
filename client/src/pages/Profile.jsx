@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -23,7 +22,6 @@ export default function Profile() {
   const [fileUploadError, setUploadFileError] = useState(false);
   const [formData, setFormData] = useState({});
   // const [updateSuccess, setUpdateSuccess] = useState(false);
-  // const nagivate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     if (imageFile) {
