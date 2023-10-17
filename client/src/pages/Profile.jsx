@@ -6,6 +6,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { Link } from "react-router-dom";
 import {
   profileUpdateStart,
   profileUpdateSuccess,
@@ -172,8 +173,14 @@ export default function Profile() {
           disabled={loading}
           className="bg-brightRedLight text-white p-3 uppercase rounded-lg hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? "Loading..." : "Update"}
+          {loading ? "Loading..." : "update"}
         </button>
+        <Link
+          to={"/create-listing"}
+          className="bg-brightCyanBlue text-white p-3 text-center uppercase rounded-lg hover:opacity-95 disabled:opacity-80"
+        >
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span
