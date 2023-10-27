@@ -11,7 +11,9 @@ import { useNavigate } from "react-router-dom";
 // import { useState } from "react";
 
 export default function CreateListing() {
-  const { currentUser } = useSelector((state) => state.user);
+  const userFromRedux = useSelector((state) => state.user);
+  const { currentUser } = userFromRedux.user;
+  console.log("current user id", currentUser._id);
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
@@ -60,7 +62,6 @@ export default function CreateListing() {
       setUploading(false);
     }
   };
-
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
